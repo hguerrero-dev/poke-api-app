@@ -1,21 +1,22 @@
-import { Badge, Card, Text, Flex } from "@radix-ui/themes";
+import { Badge, Text, Flex } from "@radix-ui/themes";
 
 export const ListAbilitiesComponent = ({ data }) => {
 
     const colors = ["red", "blue", "green", "yellow", "purple"];
 
     return (
-        <Flex gap="3" wrap="wrap" justify="center">
+        <Flex gap="3" justify="center" align="center" wrap="wrap" direction="column">
+            <Text size="1" color="gray">
+                Abilities
+            </Text>
             {data?.abilities?.map((abilityInfo) => (
-                <Card key={abilityInfo.ability.name} className="p-2">
-                    <Badge
-                        color={
-                            colors[Math.floor(Math.random() * colors.length)]
-                        }
-                    >
-                        <Text>{abilityInfo.ability.name}</Text>
-                    </Badge>
-                </Card>
+                <Badge
+                    color={
+                        colors[Math.floor(Math.random() * colors.length)]
+                    }
+                >
+                    <Text>{abilityInfo.ability.name}</Text>
+                </Badge>
             ))}
         </Flex>
     )

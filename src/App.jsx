@@ -1,43 +1,50 @@
-import { useEffect, useState } from "react"
-import { Card, DataList, Text, Flex, Separator } from "@radix-ui/themes";
+import { useState } from "react"
+import { useFetchPokeapi } from "./hooks/useFetchPokeapi";
+import { Card, Text, Flex, Separator } from "@radix-ui/themes";
 import { FormComponent } from "./components/FormComponent";
 import { PokemonImageComponent } from "./components/PokemonImageComponent";
+import { DataListComponent } from "./components/DataListComponent";
 import { ListAbilitiesComponent } from "./components/ListAbilitiesComponent";
+import { SkeletonComponent } from "./components/SkeletonComponent";
+import { EvolutionComponent } from "./components/EvolutionComponent";
 
 export const App = () => {
 
-  const [data, setData] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [selectedOption, setSelectedOption] = useState("pokemon");
+  const { data, evolutionData, loading, error, fetchData, clearData } = useFetchPokeapi();
 
-  const fetchData = async () => {
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/${selectedOption}/${inputValue}`
-    );
-    const dataResponse = await response.json();
-    console.log(dataResponse);
-    setData(dataResponse);  
+  const handleSubmit = () => {
+    fetchData(selectedOption, inputValue);
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <>
-      <Card className="m-4 p-6">
+      <FormComponent
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        onSubmit={handleSubmit}
+        onClear={clearData}
+      />
 
-        <FormComponent
-          inputValue={inputValue}
-          setInputValue={setInputValue}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          onSubmit={fetchData}
-        />
-        {
-          data && (
-            <>
-              {/* CONTENEDOR PRINCIPAL (COLUMN) */}
+      {loading && <SkeletonComponent />}
+
+      {error &&
+        <Card className="mx-auto my-8 px-8 py-16 max-w-2xl bg-white/90 backdrop-blur-sm shadow-xl">
+          <Flex justify="center" align="center">
+            <Text size="5" className="text-red-500">
+              {error}
+            </Text>
+          </Flex>
+        </Card>
+      }
+
+      {
+        data && Object.keys(data).length > 0 && (
+          <>
+            <Card className="mx-auto my-8 px-8 py-16 max-w-2xl bg-white/90 backdrop-blur-sm shadow-xl">
               <Flex
                 direction="column"
                 gap="6"
@@ -48,32 +55,33 @@ export const App = () => {
                 <PokemonImageComponent data={data} />
 
                 <Flex direction="column" gap="4" align="center" className="w-full">
-                  <Text size="6">
+                  <Text size="6" style={{ fontWeight: 'bold' }}>
                     {data?.name} #{data?.order}
                   </Text>
 
                   <Separator my="3" size="4" />
 
-                  <DataList.Root>
-                    <DataList.Item>
-                      <DataList.Label>Weight</DataList.Label>
-                      <DataList.Value>{data?.weight}</DataList.Value>
-                    </DataList.Item>
+                  <Flex
+                    direction="row"
+                    gap="8"
+                    align="start"
+                    justify={evolutionData?.parsedChain?.length > 1 ? "between" : "start"}
+                    className={evolutionData?.parsedChain?.length > 1 ? "w-full" : ""}
+                  >
+                    <DataListComponent data={data} />
+                    <ListAbilitiesComponent data={data} />
+                    {evolutionData?.parsedChain?.length > 1 && (
+                      <EvolutionComponent evolutionData={evolutionData} />
+                    )}
+                  </Flex>
 
-                    <DataList.Item>
-                      <DataList.Label>Height</DataList.Label>
-                      <DataList.Value>{data?.height}</DataList.Value>
-                    </DataList.Item>
-                  </DataList.Root>
-
-                  {/* ABILITIES */}
-                  <ListAbilitiesComponent data={data} />
                 </Flex>
+
               </Flex>
-            </>
-          )
-        }
-      </Card>
+            </Card>
+          </>
+        )
+      }
     </>
   );
 };
