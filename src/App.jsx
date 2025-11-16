@@ -7,6 +7,7 @@ import { DataListComponent } from "./components/DataListComponent";
 import { ListAbilitiesComponent } from "./components/ListAbilitiesComponent";
 import { SkeletonComponent } from "./components/SkeletonComponent";
 import { EvolutionComponent } from "./components/EvolutionComponent";
+import { PokemonByAbilityComponent } from "./components/PokemonByAbilityComponent";
 
 export const App = () => {
 
@@ -44,41 +45,45 @@ export const App = () => {
       {
         data && Object.keys(data).length > 0 && (
           <>
-            <Card className="mx-auto my-8 px-8 py-16 max-w-2xl bg-white/90 backdrop-blur-sm shadow-xl">
-              <Flex
-                direction="column"
-                gap="6"
-                align="center"
-                className="p-4 w-full"
-              >
+            {selectedOption === "ability" ? (
+              <PokemonByAbilityComponent abilityData={data} /> 
+            ) : (
+              <Card className="mx-auto my-8 px-8 py-16 max-w-2xl bg-white/90 backdrop-blur-sm shadow-xl">
+                <Flex
+                  direction="column"
+                  gap="6"
+                  align="center"
+                  className="p-4 w-full"
+                >
 
-                <PokemonImageComponent data={data} />
+                  <PokemonImageComponent data={data} />
 
-                <Flex direction="column" gap="4" align="center" className="w-full">
-                  <Text size="6" style={{ fontWeight: 'bold' }}>
-                    {data?.name} #{data?.order}
-                  </Text>
+                  <Flex direction="column" gap="4" align="center" className="w-full">
+                    <Text size="6" style={{ fontWeight: 'bold' }}>
+                      {data?.name} #{data?.order}
+                    </Text>
 
-                  <Separator my="3" size="4" />
+                    <Separator my="3" size="4" />
 
-                  <Flex
-                    direction="row"
-                    gap="8"
-                    align="start"
-                    justify={evolutionData?.parsedChain?.length > 1 ? "between" : "start"}
-                    className={evolutionData?.parsedChain?.length > 1 ? "w-full" : ""}
-                  >
-                    <DataListComponent data={data} />
-                    <ListAbilitiesComponent data={data} />
-                    {evolutionData?.parsedChain?.length > 1 && (
-                      <EvolutionComponent evolutionData={evolutionData} />
-                    )}
+                    <Flex
+                      direction="row"
+                      gap="8"
+                      align="start"
+                      justify={evolutionData?.parsedChain?.length > 1 ? "between" : "start"}
+                      className={evolutionData?.parsedChain?.length > 1 ? "w-full" : ""}
+                    >
+                      <DataListComponent data={data} />
+                      <ListAbilitiesComponent data={data} />
+                      {evolutionData?.parsedChain?.length > 1 && (
+                        <EvolutionComponent evolutionData={evolutionData} />
+                      )}
+                    </Flex>
+
                   </Flex>
 
                 </Flex>
-
-              </Flex>
-            </Card>
+              </Card>
+            )}
           </>
         )
       }
