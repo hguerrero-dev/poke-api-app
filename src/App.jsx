@@ -59,7 +59,7 @@ export const App = () => {
                   className="p-4 w-full"
                 >
 
-                  <PokemonImageComponent data={data} />
+                  <PokemonImageComponent data={data} typeColor={pokemonColor?.card} />
 
                   <Flex direction="column" gap="4" align="center" className="w-full">
                     <Text size="6" style={{ fontWeight: 'bold' }}>
