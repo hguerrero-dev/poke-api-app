@@ -62,7 +62,13 @@ Asegúrate de tener instalado [Node.js](https://nodejs.org/) (versión 18 o supe
     yarn install
     ```
 
-3.  **Inicia el servidor de desarrollo:**
+3.  **Configura las variables de entorno:**
+    Copia el archivo `.env.example` a un nuevo archivo llamado `.env` y asegúrate de que la variable `VITE_API_URL` tenga el valor correcto.
+    ```sh
+    cp .env.example .env
+    ```
+
+4.  **Inicia el servidor de desarrollo:**
     ```sh
     yarn dev
     ```
