@@ -27,7 +27,6 @@ export const useFetchPokeapi = () => {
 
       const dataResponse = await response.json();
 
-      // Solo buscar datos de evolución si es un Pokémon (no una habilidad)
       if (selectedOption === "pokemon" && dataResponse.species) {
         const { fetchEvolutionData } = useEvolutionPokemonApi();
 
@@ -35,7 +34,6 @@ export const useFetchPokeapi = () => {
           if (evolutionData) {
             dataResponse.evolutionChain = evolutionData;
             setEvolutionData(evolutionData);
-            // console.log("Evolution Chain Data inside fetchData:", evolutionData);
           }
         });
       } else {

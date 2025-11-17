@@ -19,7 +19,7 @@ export const App = () => {
   const handleSubmit = () => {
     fetchData(selectedOption, inputValue);
   };
-
+  
   const pokemonColor = data ? getPokemonColor(data) : null;
 
   return (
