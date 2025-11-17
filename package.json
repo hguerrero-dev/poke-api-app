@@ -1,8 +1,15 @@
 {
   "name": "poke-api-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "5.0.0",
   "type": "module",
+  "description": "A Pokédex application built with React and Radix UI that fetches data from the PokéAPI",
+  "author": {
+    "name": "Hector Guerrero",
+    "email": "hguerrero.dev@proton.me",
+    "url": "https://github.com/hguerrero-dev"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
