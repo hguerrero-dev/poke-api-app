@@ -19,7 +19,7 @@ export const App = () => {
   const handleSubmit = () => {
     fetchData(selectedOption, inputValue);
   };
-  
+
   const pokemonColor = data ? getPokemonColor(data) : null;
 
   return (
@@ -59,7 +59,7 @@ export const App = () => {
                   className="p-4 w-full"
                 >
 
-                  <PokemonImageComponent data={data} typeColor={pokemonColor?.card} />
+                  <PokemonImageComponent data={data} typeColor={pokemonColor?.card} setInputValue={setInputValue} />
 
                   <Flex direction="column" gap="4" align="center" className="w-full">
                     <Text size="6" style={{ fontWeight: 'bold' }}>
@@ -78,7 +78,12 @@ export const App = () => {
                       <DataListComponent data={data} />
                       <ListAbilitiesComponent data={data} typeColor={pokemonColor?.badge} />
                       {evolutionData?.parsedChain?.length > 1 && (
-                        <EvolutionComponent evolutionData={evolutionData} typeColor={pokemonColor?.badge} />
+                        <EvolutionComponent 
+                          evolutionData={evolutionData} 
+                          typeColor={pokemonColor?.badge} 
+                          setInputValue={setInputValue}
+                          onEvolutionClick={handleSubmit}
+                        />
                       )}
                     </Flex>
 
