@@ -1,6 +1,6 @@
 import { DataList, Flex, Badge, Text } from '@radix-ui/themes'
 
-export const EvolutionComponent = ({ evolutionData }) => {
+export const EvolutionComponent = ({ evolutionData, typeColor = 'purple' }) => {
     
     if (!evolutionData || !evolutionData.parsedChain || evolutionData.parsedChain.length <= 1) return null;
 
@@ -21,7 +21,7 @@ export const EvolutionComponent = ({ evolutionData }) => {
                             {evolutionData.parsedChain.map((speciesName, index) => (
                                 <Badge
                                     key={index}
-                                    color="purple"
+                                    color={typeColor}
                                     variant="soft"
                                     radius="full"
                                     style={{ fontFamily: '"Pokemon Solid", sans-serif' }}

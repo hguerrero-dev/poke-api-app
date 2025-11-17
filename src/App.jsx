@@ -8,6 +8,7 @@ import { ListAbilitiesComponent } from "./components/ListAbilitiesComponent";
 import { SkeletonComponent } from "./components/SkeletonComponent";
 import { EvolutionComponent } from "./components/EvolutionComponent";
 import { PokemonByAbilityComponent } from "./components/PokemonByAbilityComponent";
+import { getPokemonColor } from "./utils/pokemonTypeColors";
 
 export const App = () => {
 
@@ -18,6 +19,8 @@ export const App = () => {
   const handleSubmit = () => {
     fetchData(selectedOption, inputValue);
   };
+
+  const pokemonColor = data ? getPokemonColor(data) : null;
 
   return (
     <>
@@ -73,9 +76,9 @@ export const App = () => {
                       className={evolutionData?.parsedChain?.length > 1 ? "w-full" : ""}
                     >
                       <DataListComponent data={data} />
-                      <ListAbilitiesComponent data={data} />
+                      <ListAbilitiesComponent data={data} typeColor={pokemonColor?.badge} />
                       {evolutionData?.parsedChain?.length > 1 && (
-                        <EvolutionComponent evolutionData={evolutionData} />
+                        <EvolutionComponent evolutionData={evolutionData} typeColor={pokemonColor?.badge} />
                       )}
                     </Flex>
 
